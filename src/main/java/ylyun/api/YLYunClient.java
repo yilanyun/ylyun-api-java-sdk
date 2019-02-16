@@ -1,11 +1,9 @@
 package ylyun.api;
 
-import java.util.Map;
-import java.util.Set;
-
+import ylyun.api.*;
 
 /**
- * The global entrance of JPush API library.
+ * 客户端入口
  */
 public class YLYunClient {
 	

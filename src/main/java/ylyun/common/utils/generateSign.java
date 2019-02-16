@@ -5,12 +5,12 @@ import java.util.TreeSet;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import sun.misc.BASE64Encoder; 
+import sun.misc.BASE64Encoder;
 
 public class generateSign {
-	
+
 	public static String getSign(Map<String, String> data, String path, String accessToken) {
-	  
+
 		TreeSet<String> sortSet = new TreeSet<>();
 	    sortSet.addAll(data.keySet());
 	    StringBuilder builder = new StringBuilder(path);
@@ -21,7 +21,7 @@ public class generateSign {
 	    }
 	    String sign = "";
 	    try {
-	        sign = sdkDecode(accessToken + data.get("timestamp"), builder.toString().trim());  
+	        sign = sdkDecode(accessToken + data.get("timestamp"), builder.toString().trim());
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -34,7 +34,7 @@ public class generateSign {
 	        Mac mac = Mac.getInstance("HmacSHA256");
 	        mac.init(secretKey);
 	        byte[] bytes = mac.doFinal(data.getBytes("UTF-8"));
-	        BASE64Encoder encoder = new BASE64Encoder();   
+	        BASE64Encoder encoder = new BASE64Encoder();
 	        String encodedString = encoder.encode(bytes);
 	        return encodedString.trim();
 	    } catch (Exception e) {
