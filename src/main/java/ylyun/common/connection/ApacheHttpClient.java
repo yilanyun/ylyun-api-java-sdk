@@ -24,13 +24,6 @@ public class ApacheHttpClient {
     private static int SOCKET_TIMEOUT = 5000;
     private static Logger LOG = LoggerFactory.getLogger(ApacheHttpClient.class);
     
-    public static void main(String[] args) {
-        String url = "https://howtodo.yilan.tv/video/v2/head?channel_id=100&app=howto_i&udid=UhJotgFG6BJJVPM8QiXckTLc412byv1lN1OP9SQI&timestamp=1548403706";
-        System.out.println("Testing 1 - Send Http GET request");
-        String ret = httpGet(url);
-        System.out.println(ret);
-    }
-    
     /**
      * 发送GET请求
      * @param url 路径

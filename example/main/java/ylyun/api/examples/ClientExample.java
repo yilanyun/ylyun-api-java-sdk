@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import ylyun.api.YLYunClient;
+import ylyun.api.entity.Channel;
 import ylyun.api.entity.MediaDetail;
 import ylyun.api.entity.MediaInfo;
 import ylyun.api.entity.Play;
@@ -22,9 +23,10 @@ public class ClientExample {
 		YLYunClient client = new YLYunClient(comm);
 
 		//channel test
-		List<Channel> chan = client.channel().getChannel();
+		//List<Channel> chan = client.channel().getChannel();
 		System.out.println("channel test:");
-		System.out.println(chan);
+		//System.out.println(chan);
+		
 
 		//recomment test
 		long uid = 1024024;
@@ -34,7 +36,7 @@ public class ClientExample {
 		List<MediaInfo> feed = client.recommend().recommendFeed(uid, type, channelId, logId);
 		System.out.println("video recommend test:");
 		System.out.println(feed);
-
+		System.exit(0);
 		List<MediaInfo> ugc = client.recommend().recommendUgcFeed(type, logId);
 		System.out.println("ugc recommend test:");
 		System.out.println(ugc);
