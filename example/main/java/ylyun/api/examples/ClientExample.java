@@ -31,19 +31,19 @@ public class ClientExample {
 		int type = 0;
 		int channelId = 1351;
 		String logId = "log1223434";
-		List<MediaInfo> list = client.recommend().recommendFeed(uid, type, channelId, logId);
+		List<MediaInfo> feed = client.recommend().recommendFeed(uid, type, channelId, logId);
 		System.out.println("video recommend test:");
-		System.out.println(list);
+		System.out.println(feed);
 
-		List<MediaInfo> list = client.recommend().recommendUgcFeed(type, logId);
+		List<MediaInfo> ugc = client.recommend().recommendUgcFeed(type, logId);
 		System.out.println("ugc recommend test:");
-		System.out.println(list);
+		System.out.println(ugc);
 
 		//search test
 		String keyword = "好兔视频";
-		List<MediaInfo> list = client.search().searchVideo(keyword);
+		List<MediaInfo> search = client.search().searchVideo(keyword);
 		System.out.println("video search test:");
-		System.out.println(list);
+		System.out.println(search);
 
 		//video test
 		String vid = "lm5lG1kXxjp2";
@@ -51,9 +51,9 @@ public class ClientExample {
 		System.out.println("video detail test:");
 		System.out.println(info);
 
-		List<MediaInfo> list = client.video().videoRelate(vid);
+		List<MediaInfo> relate = client.video().videoRelate(vid);
 		System.out.println("video relate test:");
-		System.out.println(list);
+		System.out.println(relate);
 
 		List<Play> play = client.video().videoPlay(vid);
 		System.out.println("video play test: ");
