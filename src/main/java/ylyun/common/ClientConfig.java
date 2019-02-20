@@ -3,9 +3,9 @@ package ylyun.common;
 public class ClientConfig {
 
 	//以下常量上线前需要修改 请咨询一览接口人索取
-    public static final String ACCESS_KEY = "";
-    public static final String ACCESS_TOKEN = "";
-    public static final String PLATFORM = "";
+    public static final String ACCESS_KEY = "ylx36jukc8oq";
+    public static final String ACCESS_TOKEN = "ow5um6c233cax89dyuaqzh3g3l4duxdx";
+    public static final String PLATFORM = "bjqm";
     public static final String ENV = "prod"; //环境 dev|prod
 	public static final String HOST_PROD = "https://openapiv2.yilan.tv";
     

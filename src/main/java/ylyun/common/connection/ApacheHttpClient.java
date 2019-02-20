@@ -1,53 +1,45 @@
 package ylyun.common.connection;
 
-import net.sf.json.JSONObject;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.List;
 
-public class HttpClient {
+public class ApacheHttpClient {
 
     private final static String USER_AGENT = "Mozilla/5.0";
     private static int SC_OK = 200; 
     private static int CONN_TIMEOUT = 5000;
     private static int REQ_TIMEOUT = 5000;
     private static int SOCKET_TIMEOUT = 5000;
-    private static Logger LOG = LoggerFactory.getLogger(HttpClient.class);
-
-    public static void main(String[] args) throws Exception {
-
-        //HttpClient http = new HttpClient();
-
+    private static Logger LOG = LoggerFactory.getLogger(ApacheHttpClient.class);
+    
+    public static void main(String[] args) {
         String url = "https://howtodo.yilan.tv/video/v2/head?channel_id=100&app=howto_i&udid=UhJotgFG6BJJVPM8QiXckTLc412byv1lN1OP9SQI&timestamp=1548403706";
-
         System.out.println("Testing 1 - Send Http GET request");
-        JSONObject jsonResult = httpPost(url, null);
-        System.out.println(jsonResult.getJSONArray("contents"));
-        
-        //System.out.println("\nTesting 2 - Send Http POST request");
-        //http.sendPost();
-
+        String ret = httpGet(url);
+        System.out.println(ret);
     }
-   
-
+    
     /**
      * 发送GET请求
      * @param url 路径
-     * @return JSONObject
+     * @return String
      */
-    public static JSONObject httpGet(String url) {
+    public static String httpGet(String url) {
         //get请求返回结果
-        JSONObject jsonResult = null;
+        //JSONObject jsonResult = null;
+        String strResult = "";
         try {
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
             //发送get请求
@@ -66,27 +58,27 @@ public class HttpClient {
             //请求发送成功，并得到响应
             if (response.getStatusLine().getStatusCode() == SC_OK) {
                 //读取服务器返回过来的json字符串数据
-                String strResult = EntityUtils.toString(response.getEntity());
+                strResult = EntityUtils.toString(response.getEntity());
                 //把json字符串转换成json对象
-                jsonResult = JSONObject.fromObject(strResult);
-                url = URLDecoder.decode(url, "UTF-8");
+                //jsonResult = JSONObject.fromObject(strResult);
             } else {
+            	url = URLDecoder.decode(url, "UTF-8");
                 LOG.error("http get request fail:" + url);
             }
         } catch (IOException e) {
             LOG.error("http get request fail:" + url, e);
         }
-        return jsonResult;
+        return strResult;
     }
 
     /**
      * 发送post请求
      * @param url  url地址
-     * @param jsonParam 参数
-     * @return JSONObject
+     * @param list 参数
+     * @return json
      */
-    public static JSONObject httpPost(String url, JSONObject jsonParam){
-    	JSONObject jsonResult = null;
+    public static String httpPost(String url,  List<NameValuePair> urlParameters ){
+    	String strResult = "";
         try {
         	CloseableHttpClient httpClient = HttpClientBuilder.create().build();
             HttpPost httpPost = new HttpPost(url);
@@ -100,23 +92,20 @@ public class HttpClient {
         	//增加支持json的http头信息
         	httpPost.setHeader("User-Agent", USER_AGENT);
             httpPost.addHeader("Content-Type", "application/json");
-            if (null != jsonParam) {
+            if (null != urlParameters) {
                 //解决中文乱码问题
-                StringEntity entity = new StringEntity(jsonParam.toString(), "utf-8");
-                entity.setContentEncoding("UTF-8");
-                entity.setContentType("application/json");
-                httpPost.setEntity(entity);
+                //StringEntity entity = new StringEntity(new UrlEncodedFormEntity(urlParameters), "utf-8");
+                //entity.setContentEncoding("UTF-8");
+                //entity.setContentType("application/json");
+                httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
             }
             HttpResponse result = httpClient.execute(httpPost);
             url = URLDecoder.decode(url, "UTF-8");
             //请求发送成功，并得到响应
             if (result.getStatusLine().getStatusCode() == SC_OK) {
-                String str = "";
                 try {
                     //读取服务器返回过来的json字符串数据
-                    str = EntityUtils.toString(result.getEntity());
-                    //把json字符串转换成json对象
-                    jsonResult = JSONObject.fromObject(str);
+                    strResult = EntityUtils.toString(result.getEntity());
                 } catch (Exception e) {
                     LOG.error("http post request fail:" + url, e);
                 }
@@ -124,6 +113,6 @@ public class HttpClient {
         } catch (IOException e) {
             LOG.error("http post request fail:" + url, e);
         }
-        return jsonResult;
+        return strResult;
     }
 }
