@@ -86,7 +86,7 @@ public class RecommendService {
 	 * @param uid 用户唯一标识
 	 * @return List
 	 */
-	public List<MediaInfo> recommendUgcFeed(int loadType, int uid) {
+	public List<MediaInfo> recommendUgcFeed(int loadType, long uid) {
 		List<MediaInfo> data = new ArrayList<MediaInfo>();
 		Map<String, String> params = new HashMap<String, String>();
 		params.putAll(this.comm);

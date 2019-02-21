@@ -23,21 +23,19 @@ public class ClientExample {
 		YLYunClient client = new YLYunClient(comm);
 
 		//channel test
-		//List<Channel> chan = client.channel().getChannel();
+		List<Channel> chan = client.channel().getChannel();
 		System.out.println("channel test:");
-		//System.out.println(chan);
-		
+		System.out.println(chan);
 
 		//recomment test
 		long uid = 1024024;
 		int type = 0;
 		int channelId = 1351;
-		String logId = "log1223434";
-		List<MediaInfo> feed = client.recommend().recommendFeed(uid, type, channelId, logId);
+		List<MediaInfo> feed = client.recommend().recommendFeed(type, channelId, uid);
 		System.out.println("video recommend test:");
 		System.out.println(feed);
 		System.exit(0);
-		List<MediaInfo> ugc = client.recommend().recommendUgcFeed(type, logId);
+		List<MediaInfo> ugc = client.recommend().recommendUgcFeed(type, uid);
 		System.out.println("ugc recommend test:");
 		System.out.println(ugc);
 
