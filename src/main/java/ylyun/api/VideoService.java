@@ -85,7 +85,7 @@ public class VideoService {
 		//发送请求
 		String result = ApacheHttpClient.httpGet(servUrl);
 		PlayUrlList list = GSON.fromJson(result, PlayUrlList.class);
-		if (list.isOk() && !list.getBitrates().isEmpty()) {
+		if (list.isOk() && list.getBitrates()!= null &&!list.getBitrates().isEmpty()) {
 			data = list.getBitrates();
 		} else {
 			LOG.warn("call video play fail");

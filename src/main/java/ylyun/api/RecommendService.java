@@ -29,14 +29,45 @@ public class RecommendService {
 		this.comm = this.client.getCommParams();
 	}
 	
-	public List<MediaInfo> recommendFeed(long uid, int loadType, int channelId, String logId) {
+	/**
+	 * 视频推荐
+	 * @param loadType 加载方式 0-上拉加载更多 1-非首次下拉刷新时 2-首次刷新某个频道
+	 * @param channelId 频道ID
+	 * @param uid 用户唯一标识
+	 * @return List
+	 */
+	public List<MediaInfo> recommendFeed(int loadType, int channelId, long uid) {
 		List<MediaInfo> data = new ArrayList<MediaInfo>();
 		Map<String, String> params = new HashMap<String, String>();
 		params.putAll(this.comm);
-		params.put("uid", uid + "");
 		params.put("load_type", loadType + "");
 		params.put("channel_id", channelId + "");
-		params.put("log_id", logId);
+		params.put("uid", uid + "");
+		String servUrl = this.client.getFullUrl(servUri.get("feed"), params);
+		//发送请求
+		String result = ApacheHttpClient.httpGet(servUrl);
+		MediaList list = GSON.fromJson(result, MediaList.class);
+		if (list.isOk() && !list.getData().isEmpty()) {
+			data = list.getData();
+		} else {
+			LOG.warn("get recommend feed fail");
+		}
+		return data;
+	}
+	
+	
+	/**
+	 * 视频推荐
+	 * @param loadType 加载方式 0-上拉加载更多 1-非首次下拉刷新时 2-首次刷新某个频道
+	 * @param channelId 频道ID
+	 * @return List
+	 */
+	public List<MediaInfo> recommendFeed(int loadType, int channelId) {
+		List<MediaInfo> data = new ArrayList<MediaInfo>();
+		Map<String, String> params = new HashMap<String, String>();
+		params.putAll(this.comm);
+		params.put("load_type", loadType + "");
+		params.put("channel_id", channelId + "");
 		String servUrl = this.client.getFullUrl(servUri.get("feed"), params);
 		//发送请求
 		String result = ApacheHttpClient.httpGet(servUrl);
@@ -51,13 +82,38 @@ public class RecommendService {
 	
 	/**
 	 * 小视频推荐列表
+	 * @param loadType 加载方式 0-上拉加载更多 1-非首次下拉刷新时 2-首次刷新某个频道
+	 * @param uid 用户唯一标识
+	 * @return List
 	 */
-	public List<MediaInfo> recommendUgcFeed( int loadType, String logId) {
+	public List<MediaInfo> recommendUgcFeed(int loadType, int uid) {
 		List<MediaInfo> data = new ArrayList<MediaInfo>();
 		Map<String, String> params = new HashMap<String, String>();
 		params.putAll(this.comm);
 		params.put("load_type", loadType + "");
-		params.put("log_id", logId);
+		params.put("uid", uid + "");
+		String servUrl = this.client.getFullUrl(servUri.get("ugc_feed"), params);
+		//发送请求
+		String result = ApacheHttpClient.httpGet(servUrl);
+		MediaList list = GSON.fromJson(result, MediaList.class);
+		if (list.isOk() && !list.getData().isEmpty()) {
+			data = list.getData();
+		} else {
+			LOG.warn("get recommend ugc feed fail");
+		}
+		return data;
+	}
+	
+	/**
+	 * 小视频推荐列表
+	 * @param loadType 加载方式 0-上拉加载更多 1-非首次下拉刷新时 2-首次刷新某个频道
+	 * @return List
+	 */
+	public List<MediaInfo> recommendUgcFeed(int loadType) {
+		List<MediaInfo> data = new ArrayList<MediaInfo>();
+		Map<String, String> params = new HashMap<String, String>();
+		params.putAll(this.comm);
+		params.put("load_type", loadType + "");
 		String servUrl = this.client.getFullUrl(servUri.get("ugc_feed"), params);
 		//发送请求
 		String result = ApacheHttpClient.httpGet(servUrl);
