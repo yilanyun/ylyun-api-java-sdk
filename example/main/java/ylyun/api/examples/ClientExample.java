@@ -54,9 +54,5 @@ public class ClientExample {
 		List<MediaInfo> relate = client.video().videoRelate(vid);
 		System.out.println("video relate test:");
 		System.out.println(relate);
-
-		List<Play> play = client.video().videoPlay(vid);
-		System.out.println("video play test: ");
-		System.out.println(play);
 	}
 }
