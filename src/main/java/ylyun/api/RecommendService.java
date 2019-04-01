@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import ylyun.api.entity.MediaList;
+import ylyun.api.entity.MediaAdList;
 import ylyun.api.entity.MediaInfo;
+import ylyun.api.entity.MediaAdInfo;
 import ylyun.common.connection.ApacheHttpClient;
 
 /**
@@ -25,6 +27,7 @@ public class RecommendService {
 	public RecommendService(YLYunClient client) {
 		servUri.put("feed", "/video/feed");
 		servUri.put("ugc_feed", "/video/ugcfeed");
+		servUri.put("feed_with_ad", "/video/feedwithad");
 		this.client = client;
 		this.comm = this.client.getCommParams();
 	}
@@ -55,7 +58,7 @@ public class RecommendService {
 		return data;
 	}
 	
-	
+
 	/**
 	 * 视频推荐
 	 * @param loadType 加载方式 0-上拉加载更多 1-非首次下拉刷新时 2-首次刷新某个频道
@@ -122,6 +125,30 @@ public class RecommendService {
 			data = list.getData();
 		} else {
 			LOG.warn("get recommend ugc feed fail");
+		}
+		return data;
+	}
+
+
+	/**
+	 * 获取携带广告的视频流
+	 * @param param
+	 * @return List
+	 */
+	public List<MediaAdInfo> recommendFeedWithAd(Map<String, String> param) {
+		List<MediaAdInfo> data = new ArrayList<MediaAdInfo>();
+		Map<String, String> params = new HashMap<String, String>();
+		params.putAll(this.comm);
+		params.putAll(param);
+		String servUrl = this.client.getFullUrl(servUri.get("feed_with_ad"), params);
+
+		//发送请求
+		String result = ApacheHttpClient.httpGet(servUrl);
+		MediaAdList list = GSON.fromJson(result, MediaAdList.class);
+		if (list.isOk() && !list.getData().isEmpty()) {
+			data = list.getData();
+		} else {
+			LOG.warn("get recommend feed with advertisement fail");
 		}
 		return data;
 	}

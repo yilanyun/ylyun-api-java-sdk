@@ -15,6 +15,9 @@ public class ClientExample {
 	public static void main(String[] args) {
 		//公共参数
 		Map<String, String> comm = new HashMap<String, String>();
+		comm.put("accessKey", "ylx36jukc8oq");
+		comm.put("accessToken", "ow5um6c233cax89dyuaqzh3g3l4duxdx");
+		comm.put("platform", "bjqm");
 		comm.put("udid", "5459daf640bdb6a6a7e294a5f3f5f0d1");
 		comm.put("ver", "1.5.3.224");
 		comm.put("model", "COL-AL10");
@@ -34,10 +37,21 @@ public class ClientExample {
 		List<MediaInfo> feed = client.recommend().recommendFeed(type, channelId, uid);
 		System.out.println("video recommend test:");
 		System.out.println(feed);
-		System.exit(0);
 		List<MediaInfo> ugc = client.recommend().recommendUgcFeed(type, uid);
 		System.out.println("ugc recommend test:");
 		System.out.println(ugc);
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("channel_id", "1351");
+		param.put("adid", "TEST_YILAN");
+		param.put("os", "1");
+		param.put("os_ver", "12,1");
+		param.put("pkg_name", "");
+		param.put("network", "1");
+		param.put("ua", "test");
+		param.put("carrier", "70120");
+		List<MediaAdInfo> feedWithAd = client.recommend().recommendFeedWithAd(param);
+		System.out.println("recommend whit ad test:");
+		System.out.println(feedWithAd);
 
 		//search test
 		String keyword = "好兔视频";

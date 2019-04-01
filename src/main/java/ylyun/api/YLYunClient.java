@@ -17,15 +17,14 @@ public class YLYunClient {
 	private String accessToken;
 	private String platform;
 	private Map<String, String> commParams = new HashMap<String, String>();
-	private static final String[] mustKeys = {"udid","model","ver","ip"};
+	private static final String[] mustKeys = {"platform","udid","model","ver","ip"};
 
 	public YLYunClient(Map<String, String> comm) {
-	    this.accessKey = ClientConfig.ACCESS_KEY;
-	    this.accessToken = ClientConfig.ACCESS_TOKEN;
-	    this.platform = ClientConfig.PLATFORM;
 	    checkMustParams(comm);
-	    this.commParams.put("access_key", this.accessKey);
-	    this.commParams.put("platform", this.platform);
+		this.accessKey = comm.get("accessKey");
+		this.accessToken = comm.get("accessToken");
+		this.platform = comm.get("platform");
+		this.commParams.put("access_key", comm.get("accessKey"));
 	    this.commParams.put("format", ClientConfig.FORMAT);
 	    this.commParams.put("timestamp", "" + System.currentTimeMillis());
 	}
@@ -52,14 +51,11 @@ public class YLYunClient {
 	
 	//Check must param and config
 	private void checkMustParams(Map<String, String> comm) {
-		if (this.accessKey == "") {
-			throw new IllegalArgumentException("access_key is not config");
+		if (comm.get("accessKey").isEmpty()) {
+			throw new IllegalArgumentException("must param:accessKey is empty");
 		}
-		if (this.accessToken == "") {
-			throw new IllegalArgumentException("access_token is not config");
-		}
-		if (this.platform == "") {
-			throw new IllegalArgumentException("platform is not config");
+		if (comm.get("accessToken").isEmpty()) {
+			throw new IllegalArgumentException("must param:accessToken is empty");
 		}
 		for (String key:mustKeys) {
 			if (comm.get(key).isEmpty()) {
