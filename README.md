@@ -11,15 +11,31 @@
 将下边的依赖条件放到你项目的 maven pom.xml 文件里。
 
 ```
-<dependency>
-    <groupId>ylyun.api</groupId>
-    <artifactId>ylyun-client</artifactId>
-    <version>1.0.0</version>
-</dependency>
+<dependencies>
+    ...
+    <dependency>
+        <groupId>ylyun.api</groupId>
+        <artifactId>ylyun-client</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+    ...
+<dependencies>
+
+
+<repositories>
+    ...
+    <repository>
+        <id>yilan</id>
+        <name>Yilan Repository</name>
+        <url>http://nexus.1lan.tv/repository/maven-releases/</url>
+    </repository>
+    ...
+</repositories>
+
 ```
 ### jar 包方式
 
-请到 [github](https://github.com/yilanyun/ylyun-api-java-sdk)下载最新版本的发布包。
+请到 [Release页面](https://github.com/yilanyun/ylyun-api-java-sdk/releases)下载最新版本的发布包。
 
 
 ### 导入本项目
